@@ -4,28 +4,49 @@ const {collection, ObjectId} = require("../config/database")
 const app = express()
 const router = express.Router()
 
-router.get("/", (req, res) => {
-    // res.send("User List")
-    collection.find().toArray((err, result) =>{
-        if(err) throw err;
-        res.json(result);
-    })
-})
+// router.get("/", (req, res) => {
+//     // res.send("User List")
+//     collection.find().toArray((err, result) =>{
+//         if(err) throw err;
+//         res.json(result);
+//     })
+// })
 
 router.post("/", (req, res) => {
-  res.send("create New User")
+    collection.insertOne(req.body, (err, res) => {
+        if (err) throw err;  
+    });
+    res.send("1 document inserted");
 })
 
 router
     .route("/:id")
-    .get((req, res) => {
-        res.send(`Get a User with ID: ${req.params.id}`)
+    .get((req, res) => {    
+        //res.send(`Get User with ID ${req.params.id}`)
+        const id = new ObjectId(req.params.id)
+        collection.findOne({_id: id}, (err, result) => {
+            if (err) throw err;
+            res.send(result)
+        });       
     })
-    .put((req, res) => {
-        res.send(`Update a User with ID: ${req.params.id}`)
+    .put((req, res) => {    
+        //res.send(`Update User with ID ${req.params.id}`)
+        const id = new ObjectId(req.params.id)
+        let myquery = { _id: id };
+        let newvalues = { $set: req.body };
+        collection.updateOne(myquery, newvalues, (err, res) => {
+            if (err) throw err;
+        });
+        res.send("1 document updated");
     })
-    .delete((req, res) => {
-        res.send(`Delete a User with ID: ${req.params.id}`)
+    .delete((req, res) => {    
+        //res.send(`Update User with ID ${req.params.id}`)
+        const id = new ObjectId(req.params.id)
+        let myquery = { _id: id };
+        collection.deleteOne(myquery, function(err, obj) {
+            if (err) throw err;
+        });
+        res.send("1 document deleted");
     })
 
 
