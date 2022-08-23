@@ -4,13 +4,13 @@ const {collection, ObjectId} = require("../config/database")
 const app = express()
 const router = express.Router()
 
-// router.get("/", (req, res) => {
-//     // res.send("User List")
-//     collection.find().toArray((err, result) =>{
-//         if(err) throw err;
-//         res.json(result);
-//     })
-// })
+router.get("/", (req, res) => {
+    // res.send("User List")
+    collection.find().toArray((err, result) =>{
+        if(err) throw err;
+        res.json(result);
+    })
+})
 
 router.post("/", (req, res) => {
     collection.insertOne(req.body, (err, res) => {
