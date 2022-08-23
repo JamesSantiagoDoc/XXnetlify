@@ -26,16 +26,16 @@ router
     .route("/:id")
     .get((req, res) => {    
         //res.send(`Get User with ID ${req.params.id}`)
-        const id = new ObjectId(req.params.id)
-        collection.findOne({_id: id}, (err, result) => {
+        
+        collection.findOne({_id: ObjectId(req.params.id)}, (err, result) => {
             if (err) throw err;
             res.send(result)
         });       
     })
     .put((req, res) => {    
         //res.send(`Update User with ID ${req.params.id}`)
-        const id = new ObjectId(req.params.id)
-        let myquery = { _id: id };
+        
+        let myquery = {_id: ObjectId(req.params.id)};
         let newvalues = { $set: req.body };
         collection.updateOne(myquery, newvalues, (err, res) => {
             if (err) throw err;
@@ -44,8 +44,8 @@ router
     })
     .delete((req, res) => {    
         //res.send(`Update User with ID ${req.params.id}`)
-        const id = new ObjectId(req.params.id)
-        let myquery = { _id: id };
+        
+        let myquery = {_id: ObjectId(req.params.id)};
         collection.deleteOne(myquery, function(err, obj) {
             if (err) throw err;
         });
