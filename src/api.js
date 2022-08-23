@@ -6,7 +6,7 @@ const app = express()
 const router = express.Router()
 
 app.use(cors())
-constbodyParser =require('body-parser');
+const bodyParser =require('body-parser');
 
 app.use(bodyParser.urlencoded({
 
